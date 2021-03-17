@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <title>Авторизация</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
+    <div th:replace="imports"></div>
+</head>
+
+<body>
+<form th:action="@{/registration}" method="get">
+    <button class="btn btn-md btn-warning btn-block" type="Submit">Ещё не зарегистрированы? Перейти на страницу
+        регистрации
+    </button>
+</form>
+
+<div class="container">
+    <form th:action="@{/login}" method="POST" class="form-signin">
+        <h3 class="form-signin-heading">Добро пожаловать!</h3>
+        <br/>
+
+        <input type="text" id="email" name="email" placeholder="Адрес электронной почты"
+               class="form-control"/> <br/>
+        <input type="password" th:placeholder="Пароль"
+               id="password" name="password" class="form-control"/> <br/>
+
+        <div align="center" th:if="${param.error}">
+            <p style="font-size: 20px; color: #FF1C19;">Неверный адрес электронной почты или пароль</p>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" name="Вход" value="Login" type="Submit"
+                th:text="Вход"></button>
+    </form>
+</div>
+</body>
+</html>
