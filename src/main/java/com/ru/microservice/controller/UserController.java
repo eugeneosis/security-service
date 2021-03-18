@@ -3,8 +3,6 @@ package com.ru.microservice.controller;
 import com.ru.microservice.model.User;
 import com.ru.microservice.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,23 +43,11 @@ public class UserController {
                             "Пользователь с таким адресом электронной почты уже зарегистрирован!");
         }
         if (!bindingResult.hasErrors()) {
-            userService.saveUser(user);
+            userService.createNewUser(user);
             modelAndView.addObject("successMessage", "Вы успешно зарегистрированы!");
             modelAndView.addObject("user", new User());
-
         }
         modelAndView.setViewName("registration");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/admin/home")
-    public ModelAndView adminPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Добро пожаловать " + "/" + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage", "Контент доступен только для пользователей с ролью администратора");
-        modelAndView.setViewName("admin/home");
         return modelAndView;
     }
 }

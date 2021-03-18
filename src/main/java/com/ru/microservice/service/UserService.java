@@ -7,9 +7,12 @@ import com.ru.microservice.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -23,10 +26,15 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User saveUser(User user) {
+    @Transactional(readOnly = true)
+    public List<User> getAll() { return userRepository.findAll(); }
+
+    @Transactional
+    public User createNewUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
-        Role userRole = roleRepository.findByRole("ADMIN");
+        user.setRegistered(new Date());
+        Role userRole = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         return userRepository.save(user);
     }

@@ -34,26 +34,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
 
             http.
-                    authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/registration").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    .anyRequest()
-                    .authenticated()
-                    .and().csrf().disable()
-                    .formLogin()
-                    .loginPage("/login")
-                    .loginPage("/")
-                    .failureUrl("/login?error=true")
-                    .defaultSuccessUrl("/admin/home")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .and().logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login").and().exceptionHandling();
+                authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                /*.antMatchers("/user/**").hasAuthority("USER")*/
+                .anyRequest()
+                .authenticated()
+                .and().csrf().disable()
+                .formLogin()
+                .loginPage("/login")
+                .loginPage("/")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/admin/home")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login").and().exceptionHandling();
     }
-
 
     @SneakyThrows
     @Override
