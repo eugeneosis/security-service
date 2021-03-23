@@ -1,10 +1,13 @@
 package com.ru.microservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,14 +26,6 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", nullable = false, unique = true)
-    @Email(message = "Пожалуйста, введите Ваш адрес электронной почты")
-    private String email;
-
-    @Column(name = "password", nullable = false)
-    @Length(min = 8, message = "Пароль должен состоять не менее чем из 8 символов")
-    private String password;
-
     @Column(name = "name", nullable = false)
     @Length(min = 3, message = "Имя должно состоять не менее чем из 3 символов")
     private String name;
@@ -39,14 +34,24 @@ public class User implements Serializable {
     @Length(min = 3, message = "Фамилия должна состоять не менее чем из 3 символов")
     private String lastName;
 
+    @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "Пожалуйста, введите Ваш адрес электронной почты")
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    @Length(min = 8, message = "Пароль должен состоять не менее чем из 8 символов")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+
     @Column(name = "active")
     private Boolean enabled;
 
     @Column(name = "registration_time", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @CreatedDate
     private Date registered;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @BatchSize(size = 1000)
     private Set<Role> roles;
 }

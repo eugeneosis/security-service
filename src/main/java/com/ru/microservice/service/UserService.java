@@ -27,7 +27,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<User> getAll() { return userRepository.findAll(); }
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
 
     @Transactional
     public User createNewUser(User user) {
@@ -36,6 +38,16 @@ public class UserService {
         user.setRegistered(new Date());
         Role userRole = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
+
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User setRole(User user) {
+        if (user.getEmail().equals("admin@gmail.com")) {
+            Role adminRole = roleRepository.findByRole("ADMIN");
+            user.setRoles(new HashSet<>(Collections.singletonList(adminRole)));
+        }
         return userRepository.save(user);
     }
 }
