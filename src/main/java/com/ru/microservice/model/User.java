@@ -43,6 +43,10 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @JsonIgnore
+    @Transient
+    private String passwordConfirm;
+
     @Column(name = "active")
     private Boolean enabled;
 

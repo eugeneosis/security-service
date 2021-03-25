@@ -48,16 +48,15 @@ public class RootController {
             bindingResult
                     .rejectValue("email", "error.user",
                             "Пользователь с таким адресом электронной почты уже зарегистрирован!");
+        } else if (!user.getPassword().equals(user.getPasswordConfirm())) {
+            bindingResult.rejectValue("passwordConfirm", "error.passwordConfirm", "Пароли не совпадают");
         }
-
         if (!bindingResult.hasErrors()) {
             userService.createNewUser(user);
             userService.setRole(user);
             modelAndView.addObject("successMessage", "Вы успешно зарегистрированы!");
-            modelAndView.addObject("user", new User());
         }
-        modelAndView.setViewName("redirect:/login");
+        modelAndView.setViewName("/registration");
         return modelAndView;
     }
-
 }

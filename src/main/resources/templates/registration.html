@@ -7,6 +7,7 @@
     <div th:replace="imports"></div>
 </head>
 <body>
+
 <form th:action="@{/login}" method="get">
     <button class="btn btn-md btn-warning btn-block" type="Submit">Уже зарегистрированы? Перейти на страницу
         авторизации
@@ -58,12 +59,19 @@
 
                 <div class="form-group">
                     <div class="col-sm-9">
-                        <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                        <input type="password" th:field="*{passwordConfirm}" placeholder="Подтвердить пароль"
+                               class="form-control"/> <label
+                            th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"
+                            class="validation-message"></label>
                     </div>
                 </div>
-<div></div>
-                <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
 
+                    <div class="form-group">
+                        <div class="col-sm-9">
+                            <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                        </div>
+                    </div>
+                <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
             </form>
         </div>
     </div>
