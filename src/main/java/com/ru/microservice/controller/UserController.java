@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(value = "/main")
-    public ModelAndView adminPage() {
+    public ModelAndView userPage() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());

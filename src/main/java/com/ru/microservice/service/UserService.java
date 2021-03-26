@@ -50,4 +50,9 @@ public class UserService {
         }
         return userRepository.save(user);
     }
+
+    @Transactional
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
 }

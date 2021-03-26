@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица пользователей</title>
+</head>
+<div>
+    <div th:switch="${users}">
+        <h2 th:case="null">Пользователей не найдено!</h2>
+        <div th:case="*">
+
+            <h2>Пользователи</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Электронная почта</th>
+                    <th>Активен</th>
+                    <th>Время регистрации</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.enabled}"></td>
+                    <td th:text="${user.registered}"></td>
+
+                    <td><a th:href="@{users/{id}(id=${user.id})}">Delete</a></td>
+
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</html>
