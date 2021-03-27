@@ -3,6 +3,7 @@ package com.ru.microservice.controller;
 import com.ru.microservice.model.User;
 import com.ru.microservice.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class RootController {
 
     private final UserService userService;
@@ -54,6 +56,7 @@ public class RootController {
         if (!bindingResult.hasErrors()) {
             userService.createNewUser(user);
             userService.setRole(user);
+            log.info("create new user {}", user);
             modelAndView.addObject("successMessage", "Вы успешно зарегистрированы!");
         }
         modelAndView.setViewName("/registration");
