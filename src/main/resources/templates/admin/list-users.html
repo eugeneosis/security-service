@@ -1,24 +1,61 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="ru">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/list-users.css}"/>
+    <div th:replace="imports"></div>
     <title>Таблица пользователей</title>
 </head>
-<div>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/users/main}">Статистика</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li class="active"><a href="#">Home</a></li>-->
+                <li><a href="#" th:href="@{/admin/home}">Страница администратора</a></li>
+                <li>
+                    <a href="/logout">Выйти</a>
+                    <form style="visibility: hidden" method="get" action="#" th:action="@{/logout}"></form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin: 5%">
     <div th:switch="${users}">
         <h2 th:case="null">Пользователей не найдено!</h2>
         <div th:case="*">
 
-            <h2>Пользователи</h2>
-            <table>
+            <div class="text">
+                <h2>Пользователи</h2>
+            </div>
+
+            <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
-                    <th>Электронная почта</th>
-                    <th>Статус</th>
-                    <th>Дата регистрации</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Электронная почта</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Дата регистрации</th>
+                    <th scope="col">Удалить пользователя</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,15 +68,18 @@
                     <td th:text="${user.enabled}"></td>
                     <td th:text="${user.registered}"></td>
 
-                    <td><a th:href="@{users/{id}(id=${user.id})}">Delete</a></td>
+                    <td>
+                        <a th:href="@{users/{id}(id=${user.id})}" class="btn btn-danger">Удалить</a>
+                    </td>
 
                 </tr>
-                </tbody>
 
+                </tbody>
             </table>
 
         </div>
     </div>
 </div>
 
+</body>
 </html>

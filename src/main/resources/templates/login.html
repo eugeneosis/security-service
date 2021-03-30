@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Авторизация</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>
     <div th:replace="imports"></div>
+    <title>Авторизация</title>
 </head>
 
 <body>
@@ -25,7 +28,7 @@
         <input type="password" th:placeholder="Пароль"
                id="password" name="password" class="form-control"/> <br/>
 
-        <div align="center" th:if="${param.error}">
+        <div style="text-align: center" th:if="${param.error}">
             <p style="font-size: 20px; color: #FF1C19;">Неверный адрес электронной почты или пароль</p>
         </div>
         <button class="btn btn-lg btn-primary btn-block" name="Вход" value="Login" type="Submit"

@@ -3,32 +3,54 @@
       xmlns:th="http://www.thymeleaf.org" lang="ru">
 
 <head>
-    <title>Страница администратора</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
     <div th:replace="imports"></div>
+    <title>Страница администратора</title>
 </head>
-
 <body>
-<div class="container">
 
-    <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger btn-block" name="registration"
-                type="Submit">Выйти
-        </button>
-    </form>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/users/main}">Статистика</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li class="active"><a href="#">Home</a></li>-->
+                <li><a href="#" th:href="@{/admin/users}">Управление пользователями</a></li>
+                <li>
+                    <a href="/logout">Выйти</a>
+                    <form style="visibility: hidden" method="get" action="#" th:action="@{/logout}"></form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
+<div class="container" style="margin: 5%">
     <div class="panel-group" style="margin-top:40px">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
+        <div class="panel panel-primary" style="border-color: #333333">
+            <div class="panel-heading" style="background-color: #333333">
                 <span th:utext="${userName}"></span>
             </div>
             <div class="panel-body">
 
             </div>
-            <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+            <p class="admin-message-text text-center" th:utext="${adminMessage}" style="color: #000000"></p>
         </div>
     </div>
 
 </div>
+
 </body>
 </html>

@@ -1,5 +1,11 @@
+.panel-heading {
+    background-color: #333333;
+    border-color: #333333;
+    color: #333333;
+}
+
 .admin-message-text {
     font-style: normal;
     font-size: 22px;
-    color: #004080;
+    color: #333333;
 }
