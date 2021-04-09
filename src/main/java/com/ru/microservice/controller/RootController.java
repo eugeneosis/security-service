@@ -19,21 +19,21 @@ public class RootController {
 
     private final UserService userService;
 
-    @GetMapping(value = {"/"})
+    @GetMapping("/")
     public ModelAndView root() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
-    @GetMapping(value = {"/login"})
+    @GetMapping("/login")
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
     }
 
-    @GetMapping(value = "/registration")
+    @GetMapping("/registration")
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
@@ -42,7 +42,7 @@ public class RootController {
         return modelAndView;
     }
 
-    @PostMapping(value = "/registration")
+    @PostMapping("/registration")
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());

@@ -21,7 +21,7 @@ public class AdminController {
 
     private final UserService userService;
 
-    @GetMapping(value = "/admin/home")
+    @GetMapping("/admin/home")
     public ModelAndView adminPage() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -33,7 +33,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/admin/users")
+    @GetMapping("/admin/users")
     public ModelAndView getAll(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         List<User> users = userService.getAll();
@@ -43,7 +43,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/admin/users/{id}")
+    @GetMapping("/admin/users/{id}")
     public ModelAndView delete(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
         userService.deleteById(id);

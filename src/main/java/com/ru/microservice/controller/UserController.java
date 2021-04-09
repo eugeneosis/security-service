@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(value = "/users/main")
+    @GetMapping("/users/main")
     public ModelAndView userPage() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
