@@ -1,6 +1,7 @@
 package com.ru.microservice.controller;
 
 import com.ru.microservice.model.User;
+import com.ru.microservice.service.RestService;
 import com.ru.microservice.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ public class UserController {
 
     private final UserService userService;
 
+    private final RestService restService;
+
     @GetMapping(value = "/main", produces = MediaType.APPLICATION_JSON)
     public ModelAndView userPage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -32,5 +35,11 @@ public class UserController {
         modelAndView.setViewName("/users/main");
         log.info("login to user profile {}", user);
         return modelAndView;
+    }
+
+    @GetMapping(value = "/rest", produces = MediaType.APPLICATION_JSON)
+    public String testRest() {
+        log.info("test RestService");
+        return restService.getAllUsers();
     }
 }
