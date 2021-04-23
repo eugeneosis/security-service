@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import javax.ws.rs.core.MediaType;
 
 @RestController
 @AllArgsConstructor
@@ -19,21 +20,21 @@ public class RootController {
 
     private final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON)
     public ModelAndView root() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
-    @GetMapping("/login")
+    @GetMapping(value = "/login", produces = MediaType.APPLICATION_JSON)
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
     }
 
-    @GetMapping("/registration")
+    @GetMapping(value = "/registration", produces = MediaType.APPLICATION_JSON)
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
@@ -42,7 +43,7 @@ public class RootController {
         return modelAndView;
     }
 
-    @PostMapping("/registration")
+    @PostMapping(value = "/registration", produces = MediaType.APPLICATION_JSON)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());

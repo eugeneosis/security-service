@@ -7,18 +7,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.ws.rs.core.MediaType;
 
 
 @RestController
 @AllArgsConstructor
 @Slf4j
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users/main")
+    @GetMapping(value = "/main", produces = MediaType.APPLICATION_JSON)
     public ModelAndView userPage() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

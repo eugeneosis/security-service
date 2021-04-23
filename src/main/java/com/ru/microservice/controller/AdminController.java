@@ -9,19 +9,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @Slf4j
+@RequestMapping("/admin")
 public class AdminController {
 
     private final UserService userService;
 
-    @GetMapping("/admin/home")
+    @GetMapping(value = "/home", produces = MediaType.APPLICATION_JSON)
     public ModelAndView adminPage() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -33,7 +36,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("/admin/users")
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON)
     public ModelAndView getAll(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         List<User> users = userService.getAll();
@@ -43,7 +46,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("/admin/users/{id}")
+    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON)
     public ModelAndView delete(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
         userService.deleteById(id);
