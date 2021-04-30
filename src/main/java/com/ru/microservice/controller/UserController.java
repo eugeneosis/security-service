@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping(value = "/rest", produces = MediaType.APPLICATION_JSON)
     public String testRest() {
-        log.info("test RestService");
+        log.info("fetch data through Rest Service");
         return restService.getAllUsers();
     }
 }
