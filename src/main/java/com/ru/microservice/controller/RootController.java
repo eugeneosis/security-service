@@ -60,7 +60,7 @@ public class RootController {
             log.info("create new user {}", user);
             modelAndView.addObject("successMessage", "Вы успешно зарегистрированы!");
         }
-        modelAndView.setViewName("/registration");
+        modelAndView.setViewName("registration");
         return modelAndView;
     }
 }
