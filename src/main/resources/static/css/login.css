@@ -7,9 +7,7 @@
     max-width: 420px;
     padding: 30px 38px 66px;
     margin: 0 auto;
-    background-color: #eee;
-    border: 3px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+
 }
 
 .form-signin-heading {
