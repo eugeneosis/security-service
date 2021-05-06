@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -35,7 +36,8 @@ public class User implements Serializable {
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
-    @Email(message = "Пожалуйста, введите Ваш адрес электронной почты")
+    @Email
+    @NotBlank(message = "Пожалуйста, введите Ваш адрес электронной почты")
     private String email;
 
     @Column(name = "password", nullable = false)
