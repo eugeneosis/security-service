@@ -37,9 +37,15 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/rest", produces = MediaType.APPLICATION_JSON)
-    public String testRest() {
-        log.info("fetch data through Rest Service");
+    @GetMapping(value = "/rest/users", produces = MediaType.APPLICATION_JSON)
+    public String usersRest() {
+        log.info("fetching data through Rest Service");
         return restService.getAllUsers();
+    }
+
+    @GetMapping(value = "/rest/messages", produces = MediaType.APPLICATION_JSON)
+    public String messagesRest() {
+        log.info("fetching data through Rest Service");
+        return restService.getAllMessages();
     }
 }

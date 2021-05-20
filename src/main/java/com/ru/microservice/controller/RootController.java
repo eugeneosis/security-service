@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.MediaType;
 
 @RestController
+@RequestMapping("/")
 @AllArgsConstructor
 @Slf4j
 public class RootController {

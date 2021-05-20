@@ -20,6 +20,13 @@ public class RestService {
         return response;
     }
 
+    @HystrixCommand(fallbackMethod = "failed")
+    public String getAllMessages() {
+        String response = template.getForObject("http://ui-rest-service/messages", String.class);
+        log.info(response);
+        return response;
+    }
+
     public String failed() {
         String error = "Сервис временно не доступен. Пожалуйста, попробуйте позже";
         log.error(error);
