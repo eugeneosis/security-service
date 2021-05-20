@@ -8,11 +8,12 @@
         <version>2.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.ru.microservice</groupId>
     <artifactId>security-service</artifactId>
     <version>1.0.0</version>
     <name>security-service</name>
-    <description>Security Project on Spring Boot</description>
+    <description>security project</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -60,6 +61,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
