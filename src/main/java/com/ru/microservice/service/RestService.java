@@ -28,7 +28,7 @@ public class RestService {
     }
 
     public String failed() {
-        String error = "Сервис временно не доступен. Пожалуйста, попробуйте позже";
+        String error = "Сервис временно не доступен. Попробуйте обновить страницу или зайти позднее.";
         log.error(error);
         return error;
     }
