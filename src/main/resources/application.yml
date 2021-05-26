@@ -1,0 +1,65 @@
+server:
+  error:
+    include-exception: true
+    include-message: always
+    whitelabel:
+      enabled: false
+  port: 8084
+
+
+spring:
+  application:
+    name: security-service
+  datasource:
+    driverClassName: org.postgresql.Driver
+    initialization-mode: always
+    password: test123
+    url: jdbc:postgresql://localhost:5432/secure_users
+    username: postgres
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  zipkin:
+    base-url: http://localhost:9411/
+
+
+eureka:
+  instance:
+    instance-id: security-service
+
+
+logging:
+  file:
+    name: logs/security-log.txt
+  level:
+    com:
+      ru:
+        microservice: debug
+    org:
+      springframework:
+        security: debug
+    root: info
+
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+
+
+info:
+  app:
+    description: security service
+    name: microservice application
+    version: 1.0.0
