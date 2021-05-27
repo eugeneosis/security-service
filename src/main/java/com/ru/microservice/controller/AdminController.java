@@ -32,7 +32,7 @@ public class AdminController {
         modelAndView.addObject("userName", "Добро пожаловать " + admin.getName() + " " + admin.getLastName() + " (" + admin.getEmail() + ")");
         modelAndView.addObject("adminMessage", "Контент доступен только для пользователей с ролью администратора");
         modelAndView.setViewName("admin/home");
-        log.info("login to admin profile {}", admin);
+        log.info("Login to admin profile {}", admin);
         return modelAndView;
     }
 
@@ -41,7 +41,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         List<User> users = userService.getAll();
         model.addAttribute("users", users);
-        log.info("getAll {}", users);
+        log.info("Get all users: {}", users);
         modelAndView.setViewName("admin/list-users");
         return modelAndView;
     }
@@ -50,7 +50,7 @@ public class AdminController {
     public ModelAndView delete(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
         userService.deleteById(id);
-        log.info("delete user with id {}", id);
+        log.info("Delete user with id {}", id);
         modelAndView.setViewName("redirect:/admin/users");
         return modelAndView;
     }
