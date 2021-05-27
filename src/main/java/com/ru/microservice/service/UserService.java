@@ -27,9 +27,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
+    public List<User> getAll() { return userRepository.findAll(); }
 
     @Transactional
     public User createNewUser(User user) {
@@ -38,7 +36,6 @@ public class UserService {
         user.setRegistered(new Date());
         Role userRole = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
-
         return userRepository.save(user);
     }
 
@@ -52,7 +49,5 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
-    }
+    public void deleteById(Long id) { userRepository.deleteById(id); }
 }

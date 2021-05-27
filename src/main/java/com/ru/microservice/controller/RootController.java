@@ -1,6 +1,7 @@
 package com.ru.microservice.controller;
 
 import com.ru.microservice.model.User;
+import com.ru.microservice.service.EmailSenderService;
 import com.ru.microservice.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 public class RootController {
 
     private final UserService userService;
+    private final EmailSenderService emailSenderService;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON)
     public ModelAndView root() {
@@ -59,10 +61,12 @@ public class RootController {
         if (!bindingResult.hasErrors()) {
             userService.createNewUser(user);
             userService.setRole(user);
-            log.info("create new user {}", user);
-            modelAndView.addObject("successMessage", "Вы успешно зарегистрированы!");
+            log.info("Create new user: {}", user);
+            modelAndView.addObject("successMessage", "Вы успешно зарегистрированы! \n\n Перейдите на страницу \n\nавторизации");
         }
         modelAndView.setViewName("registration");
+        emailSenderService.sendEmail(user.getEmail(), "allWeatherRussiaBot", user.getName() + ", спасибо за Ваш интерес к сервису. \n\nВы успешно зарегистрированы!");
+        log.info("Sent email to {}", user.getEmail());
         return modelAndView;
     }
 }

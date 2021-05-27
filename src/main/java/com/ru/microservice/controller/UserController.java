@@ -31,21 +31,21 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("userName", "Добро пожаловать " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("userMessage", "Контент доступен только для пользователей с ролью пользователя");
+        modelAndView.addObject("userMessage", "Контент доступен только для пользователей");
         modelAndView.setViewName("users/main");
-        log.info("login to user profile {}", user);
+        log.info("Login to user profile {}", user);
         return modelAndView;
     }
 
     @GetMapping(value = "/rest/users", produces = MediaType.APPLICATION_JSON)
     public String usersRest() {
-        log.info("fetching data through Rest Service");
+        log.info("Fetching data through Rest Service");
         return restService.getAllUsers();
     }
 
     @GetMapping(value = "/rest/messages", produces = MediaType.APPLICATION_JSON)
     public String messagesRest() {
-        log.info("fetching data through Rest Service");
+        log.info("Fetching data through Rest Service");
         return restService.getAllMessages();
     }
 }
