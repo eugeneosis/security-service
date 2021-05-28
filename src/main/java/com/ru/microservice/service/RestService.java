@@ -1,8 +1,10 @@
 package com.ru.microservice.service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,23 +15,25 @@ public class RestService {
 
     private final RestTemplate template;
 
-    @HystrixCommand(fallbackMethod = "failed")
+    private static final String SERVICE_FALLBACK_CONSTANT = "Сервис временно не доступен. Попробуйте обновить страницу или зайти позднее.";
+
+    @Retryable(maxAttempts = 5, value = RuntimeException.class, backoff = @Backoff(delay = 50, multiplier = 2))
     public String getAllUsers() {
         String response = template.getForObject("http://ui-rest-service/users", String.class);
         log.info(response);
         return response;
     }
 
-    @HystrixCommand(fallbackMethod = "failed")
+    @Retryable(maxAttempts = 5, value = RuntimeException.class, backoff = @Backoff(delay = 50, multiplier = 2))
     public String getAllMessages() {
         String response = template.getForObject("http://ui-rest-service/messages", String.class);
         log.info(response);
         return response;
     }
 
+    @Recover
     public String failed() {
-        String error = "Сервис временно не доступен. Попробуйте обновить страницу или зайти позднее.";
-        log.error(error);
-        return error;
+        log.error(SERVICE_FALLBACK_CONSTANT);
+        return SERVICE_FALLBACK_CONSTANT;
     }
 }
