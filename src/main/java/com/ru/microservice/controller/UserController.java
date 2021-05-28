@@ -39,13 +39,13 @@ public class UserController {
 
     @GetMapping(value = "/rest/users", produces = MediaType.APPLICATION_JSON)
     public String usersRest() {
-        log.info("Fetching data through Rest Service");
+        log.info("Fetching users data from UI-REST-SERVICE through Rest Service");
         return restService.getAllUsers();
     }
 
     @GetMapping(value = "/rest/messages", produces = MediaType.APPLICATION_JSON)
     public String messagesRest() {
-        log.info("Fetching data through Rest Service");
+        log.info("Fetching messages data from UI-REST-SERVICE through Rest Service");
         return restService.getAllMessages();
     }
 }
