@@ -30,7 +30,7 @@ public class UserService {
     public List<User> getAll() { return userRepository.findAll(); }
 
     @Transactional
-    public User createNewUser(User user) {
+    public User createUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         user.setRegistered(new Date());

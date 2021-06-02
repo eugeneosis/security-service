@@ -1,72 +1,18 @@
 package com.ru.microservice.controller;
 
-import com.ru.microservice.model.User;
-import com.ru.microservice.service.EmailSenderService;
-import com.ru.microservice.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import javax.ws.rs.core.MediaType;
-
-@RestController
-@RequestMapping("/")
-@AllArgsConstructor
-@Slf4j
+@Controller
 public class RootController {
 
-    private final UserService userService;
-    private final EmailSenderService emailSenderService;
-
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView root() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        return modelAndView;
+    @GetMapping(value = "/")
+    public String root() {
+        return "index";
     }
 
-    @GetMapping(value = "/login", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/registration", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView registration() {
-        ModelAndView modelAndView = new ModelAndView();
-        User user = new User();
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("registration");
-        return modelAndView;
-    }
-
-    @PostMapping(value = "/registration", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        User userExists = userService.findUserByEmail(user.getEmail());
-        if (userExists != null) {
-            bindingResult
-                    .rejectValue("email", "error.user",
-                            "Пользователь с таким адресом электронной почты уже зарегистрирован!");
-        } else if (!user.getPassword().equals(user.getPasswordConfirm())) {
-            bindingResult.rejectValue("passwordConfirm", "error.passwordConfirm", "Пароли не совпадают");
-        }
-        if (!bindingResult.hasErrors()) {
-            userService.createNewUser(user);
-            userService.setRole(user);
-            log.info("Create new user: {}", user);
-            modelAndView.addObject("successMessage", "Вы успешно зарегистрированы! \n\n Перейдите на страницу \n\nавторизации");
-        }
-        modelAndView.setViewName("registration");
-        emailSenderService.sendEmail(user.getEmail(), "allWeatherRussiaBot", user.getName() + ", спасибо за Ваш интерес к сервису. \n\nВы успешно зарегистрированы!");
-        log.info("Sent email to {}", user.getEmail());
-        return modelAndView;
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
     }
 }
