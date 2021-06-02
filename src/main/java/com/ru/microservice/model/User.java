@@ -36,7 +36,7 @@ public class User implements Serializable {
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
-    @Email
+    @Email(message = "Поле должно иметь формат адреса электронной почты", regexp = "^[A-Za-z0-9+_.-]+@(.+)$")
     @NotBlank(message = "Пожалуйста, введите Ваш адрес электронной почты")
     private String email;
 
