@@ -22,7 +22,6 @@ import javax.ws.rs.core.MediaType;
 public class UserController {
 
     private final UserService userService;
-
     private final RestService restService;
 
     @GetMapping(value = "/main", produces = MediaType.APPLICATION_JSON)
@@ -37,15 +36,38 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/rest/users", produces = MediaType.APPLICATION_JSON)
-    public String usersRest() {
-        log.info("Fetching users data from UI-REST-SERVICE through Rest Service");
-        return restService.getAllUsers();
-    }
-
     @GetMapping(value = "/rest/messages", produces = MediaType.APPLICATION_JSON)
     public String messagesRest() {
-        log.info("Fetching messages data from UI-REST-SERVICE through Rest Service");
+        log.info("Fetching raw messages data from UI-REST-SERVICE through Rest Service");
         return restService.getAllMessages();
+    }
+
+    @GetMapping(value = "/messages", produces = MediaType.APPLICATION_JSON)
+    public ModelAndView messagesTable() {
+        ModelAndView modelAndView = new ModelAndView();
+        log.info("Get message table page");
+        modelAndView.setViewName("users/messages");
+        return modelAndView;
+    }
+
+//    @GetMapping(value = "/rest/without", produces = MediaType.APPLICATION_JSON)
+//    public String messagesTestJsonWithoutUserData() {
+//        log.info("Fetching raw messages data from UI-REST-SERVICE without USER through Rest Service");
+//        return restService.getAllMessagesWithoutUser();
+//    }
+
+    @GetMapping(value = "/charts", produces = MediaType.APPLICATION_JSON)
+    public ModelAndView messagesCharts() {
+        ModelAndView modelAndView = new ModelAndView();
+        log.info("Get message chart page");
+        modelAndView.setViewName("users/charts");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON)
+    public ModelAndView testSortedTable() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("users/test");
+        return modelAndView;
     }
 }
