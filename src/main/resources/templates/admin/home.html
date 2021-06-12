@@ -22,11 +22,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" th:href="@{/users/rest/messages}">Статистика</a>
+            <a class="navbar-brand" href="#" th:href="@{/users/messages}">Статистика</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="#" th:href="@{/admin/users}">Управление пользователями</a></li>
                 <li>
                     <a href="/logout">Выйти</a>
@@ -49,7 +48,6 @@
             <p class="admin-message-text text-center" th:utext="${adminMessage}" style="color: #000000"></p>
         </div>
     </div>
-
 </div>
 
 </body>
