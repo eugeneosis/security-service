@@ -42,41 +42,136 @@
 <br>
 <br>
 
-<div>
-    <canvas id="myChart"></canvas>
+<div class="chart-container">
+    <canvas id="myChart" aria-label="aria" role="img"></canvas>
 </div>
 
 <script>
 
-    const data = {
-        labels: [
-            'Red',
-            'Blue',
-            'Yellow'
-        ],
-        datasets: [{
-            label: 'My First Dataset',
-            data: [300, 50, 100],
-            backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
-            ],
-            hoverOffset: 4
-        }]
-    };
+    function grabData() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "http://localhost:8084/users/rest/messages",
+                method: "GET",
+                dataType: 'JSON',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (error) {
+                    reject(error);
+                }
+            })
+        })
+    }
 
-    const config = {
-        type: 'pie',
-        data: data,
-    };
+    $(document).ready(function () {
+        grabData().then((data) => {
+            console.log('Received data:', data);
+            let text = [];
 
-    var myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
+            try {
+                data.forEach((item) => {
+                    if (item.text === '/start') {
+                        console.log(item.text);
+                    }
+                    text.push(item.text);
+                });
+
+                let a = {};
+
+                data.forEach((item) => {
+                    if (a.hasOwnProperty(item.text)) {
+                        a[item.text] = a[item.text] + 1;
+                    } else {
+                        a[item.text] = 1;
+                    }
+                });
+
+                let b = [];
+                let c = [];
+                for (let key in a) {
+                    b.push(key);
+                    c.push(a[key]);
+                }
+
+                console.log('Messages: ', text);
+
+                let chartdata = {
+                    labels: [...b],
+                    datasets: [{
+                        label: 'Сообщения',
+                        data: [...c],
+                        backgroundColor: [
+                            'rgb(136,136,246)',
+                            'rgb(89,245,231)',
+                            'rgb(255,8,46)',
+                            'rgb(0,151,148)',
+                            'rgb(205,254,0)',
+                            'rgb(255,0,109)',
+                            'rgb(168,0,239)',
+                            'rgb(255,179,30)',
+                            'rgb(0,249,111)',
+                            'rgb(71,66,74)'
+                        ],
+                        borderColor: [
+                            'rgb(136,136,246)',
+                            'rgb(89,245,231)',
+                            'rgb(255,8,46)',
+                            'rgb(0,151,148)',
+                            'rgb(205,254,0)',
+                            'rgb(255,0,109)',
+                            'rgb(168,0,239)',
+                            'rgb(255,179,30)',
+                            'rgb(0,249,111)',
+                            'rgb(71,66,74)',
+                            'rgb(0,0,0)'
+                        ],
+                        /*borderColor: 'white',*/
+                        borderWidth: 0.5,
+                    }]
+                };
+
+                /*admin_admin*/
+                let ctx = $("#myChart");
+
+                const chart = new Chart(ctx, {
+                    type: 'pie',
+                    data: chartdata,
+                    options: {
+                        responsive: true,
+                        aspectRatio: 1.9,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                                /*display: false*/
+                            },
+                            title: {
+                                display: true
+                                /*text: 'Количество сообщений: '*/
+                            },
+                            animation: {
+                                animateScale: true,
+                                animateRotate: true
+                            }
+                        }
+                    },
+                });
+
+            } catch (error) {
+                console.log('Error parsing JSON data', error)
+            }
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    });
 
 </script>
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </body>
 </html>

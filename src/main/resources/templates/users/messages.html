@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="ru">
-
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <div th:replace="imports"></div>
-    <title>Таблица статистики</title>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <link href=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css rel=stylesheet>
+    <link href=https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/css/dataTables.bootstrap.min.css rel=stylesheet>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/dataTables.bootstrap.min.js></script>
 </head>
 <body>
 
@@ -33,57 +33,77 @@
     </div>
 </nav>
 
+
+<br>
 <br>
 <br>
 <br>
 <br>
 
-<style>
-    th {
-        color: black;
-    }
-</style>
-
-<div class="panel panel-default">
-    <table class="table table-striped" id="table">
-        <tr class="bg-info">
-            <th>Id</th>
-            <th>Id Сообщения</th>
-            <th>Сообщение</th>
-            <th>Язык</th>
-            <th>Дата</th>
+<div class=container>
+    <table cellspacing=0 class="table table-bordered table-hover" id=table width=100%>
+        <thead>
+        <tr>
+            <th>Id
+            <th>Сообщение
+            <th>Язык
+            <th>Дата
+            <th>Время
         </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
     </table>
 </div>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+
 <script>
 
-    $(document).ready(function () {
-        $.ajax({
-            url: "http://localhost:8084/users/rest/messages",
-            dataType: 'json',
-            type: 'get',
-            cache: false,
-            success: function (data) {
-                console.log(data);
-                let event_data = '';
-                $.each(data, function (index, value) {
-                    console.log(value);
-                    event_data += '<tr>';
-                    event_data += '<td>' + value.id + '</td>';
-                    event_data += '<td>' + value.message_id + '</td>';
-                    event_data += '<td>' + value.text + '</td>';
-                    event_data += '<td>' + value.languageCode + '</td>';
-                    event_data += '<td>' + value.date + '</td>';
-                    event_data += '</tr>';
-                });
-                $("#table").append(event_data);
-            },
-            error: function () {
-                console.log("Data load error");
-                location.replace("http://localhost:8084/users/rest/messages");
-            }
-        });
+    $.ajax({
+        url: "http://localhost:8084/users/rest/messages",
+        dataType: 'json',
+        type: 'get',
+        cache: false,
+        success: function (data) {
+            console.log(data);
+            let event_data = '';
+            $.each(data, function (index, value) {
+                console.log(value);
+                event_data += '<tr>';
+                event_data += '<td>' + value.id + '</td>';
+                event_data += '<td>' + value.text + '</td>';
+                event_data += '<td>' + value.languageCode + '</td>';
+                if (value.date === null) {
+                    event_data += '<td>' + ' ' + '</td>';
+                    event_data += '<td>' + ' ' + '</td>';
+                } else {
+                    let date = new Date(value.date * 1000).toLocaleDateString();
+                    let time = new Date(value.date * 1000).toLocaleTimeString();
+                    event_data += '<td>' + date + '</td>';
+                    event_data += '<td>' + time + '</td>';
+                }
+                event_data += '</tr>';
+            });
+            $("#table").append(event_data);
+            $("#table").DataTable({
+                "paging": false,
+                "bInfo": false,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Поиск сообщений"
+                }
+            });
+        },
+        error: function () {
+            console.log("Data load error");
+            location.replace("http://localhost:8084/users/rest/messages");
+        }
     });
 
 </script>
