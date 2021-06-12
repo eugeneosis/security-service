@@ -72,6 +72,6 @@ management:
 
 info:
   app:
-    description: security service
     name: microservice application
+    description: security service
     version: 1.0.0
