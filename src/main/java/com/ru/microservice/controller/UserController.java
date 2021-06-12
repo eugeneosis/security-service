@@ -37,37 +37,38 @@ public class UserController {
     }
 
     @GetMapping(value = "/rest/messages", produces = MediaType.APPLICATION_JSON)
-    public String messagesRest() {
-        log.info("Fetching raw messages data from UI-REST-SERVICE through Rest Service");
-        return restService.getAllMessages();
+    public String messagesTestJsonWithoutUserData() {
+        log.info("Fetching messages data from UI-REST-SERVICE through Rest Service");
+        return restService.getSortedMessages();
     }
 
     @GetMapping(value = "/messages", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView messagesTable() {
+    public ModelAndView testSortedTable() {
         ModelAndView modelAndView = new ModelAndView();
-        log.info("Get message table page");
+        log.info("Login to messages page");
         modelAndView.setViewName("users/messages");
         return modelAndView;
     }
 
-//    @GetMapping(value = "/rest/without", produces = MediaType.APPLICATION_JSON)
-//    public String messagesTestJsonWithoutUserData() {
-//        log.info("Fetching raw messages data from UI-REST-SERVICE without USER through Rest Service");
-//        return restService.getAllMessagesWithoutUser();
-//    }
-
     @GetMapping(value = "/charts", produces = MediaType.APPLICATION_JSON)
     public ModelAndView messagesCharts() {
         ModelAndView modelAndView = new ModelAndView();
-        log.info("Get message chart page");
+        log.info("Login to chart page");
         modelAndView.setViewName("users/charts");
         return modelAndView;
     }
 
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView testSortedTable() {
+    public ModelAndView messagesTable() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("users/test");
+        log.info("Login to test messages-table page");
+        modelAndView.setViewName("users/messages-table");
         return modelAndView;
+    }
+
+    @GetMapping(value = "/rest/allmessages", produces = MediaType.APPLICATION_JSON)
+    public String messagesRest() {
+        log.info("Fetching raw messages data from UI-REST-SERVICE through Rest Service");
+        return restService.getAllMessages();
     }
 }
