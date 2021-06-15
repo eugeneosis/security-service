@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<div th:replace="imports"></div>-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels"></script>
+    <title>График</title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">AllWeatherRussiaBot</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" th:href="@{/users/main}">Личный кабинет</a></li>
+                <li><a href="#" th:href="@{/users/messages}">Таблица статистики</a></li>
+                <li><a href="/logout">Выйти</a>
+                    <form style="visibility: hidden" method="get" action="#" th:action="@{/logout}"></form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div id="chart-wrapper">
+    <canvas id="outlabeledChart"></canvas>
+</div>
+
+<script id="script-construct">
+
+    function grabData() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "http://localhost:8084/users/rest/messages",
+                method: "GET",
+                dataType: 'JSON',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (error) {
+                    reject(error);
+                }
+            })
+        })
+    }
+
+    $(document).ready(function () {
+        grabData().then((data) => {
+            console.log('Received data:', data);
+            let text = [];
+
+            try {
+                data.forEach((item) => {
+                    if (item.text === '/start') {
+                        console.log(item.text);
+                    }
+                    text.push(item.text);
+                });
+
+                let a = {};
+
+                data.forEach((item) => {
+                    if (a.hasOwnProperty(item.text)) {
+                        a[item.text] = a[item.text] + 1;
+                    } else {
+                        a[item.text] = 1;
+                    }
+                });
+
+                let b = [];
+                let c = [];
+                for (let key in a) {
+                    b.push(key);
+                    c.push(a[key]);
+                }
+                console.log('Messages: ', text);
+
+                /*admin_admin*/
+                let chart = new Chart('outlabeledChart', {
+                    type: 'pie',
+                    data: {
+                        labels: [...b].slice(10),
+                        datasets: [{
+                            backgroundColor: [
+                                '#FF3784',
+                                '#36A2EB',
+                                '#4BC0C0',
+                                '#F77825',
+                                '#9966FF',
+                                '#00A8C6',
+                                '#379F7A',
+                                '#CC2738',
+                                '#8B628A',
+                                '#8FBE00',
+                                '#000000',
+                                '#FF3784',
+                                '#36A2EB',
+                                '#4BC0C0',
+                                '#F77825',
+                                '#9966FF',
+                                '#00A8C6',
+                                '#379F7A',
+                                '#CC2738',
+                                '#8B628A',
+                                '#8FBE00',
+                                '#000000',
+                                '#FF3784',
+                                '#36A2EB',
+                                '#4BC0C0',
+                                '#F77825',
+                                '#9966FF',
+                                '#00A8C6',
+                                '#379F7A',
+                                '#CC2738',
+                                '#8B628A',
+                                '#8FBE00',
+                                '#000000',
+                                '#000000',
+                                '#FF3784',
+                                '#36A2EB',
+                                '#4BC0C0',
+                                '#F77825',
+                                '#9966FF',
+                                '#00A8C6',
+                                '#379F7A',
+                                '#CC2738',
+                                '#8B628A',
+                                '#8FBE00',
+                                '#000000',
+                                '#000000',
+                                '#FF3784',
+                                '#36A2EB',
+                                '#4BC0C0',
+                                '#F77825',
+                                '#9966FF',
+                                '#00A8C6',
+                                '#379F7A',
+                                '#CC2738',
+                                '#8B628A',
+                                '#8FBE00',
+                                '#000000',
+                                '#000000',
+                                '#FF3784',
+                                '#36A2EB',
+                                '#4BC0C0',
+                                '#F77825',
+                                '#9966FF',
+                                '#00A8C6',
+                                '#379F7A',
+                                '#CC2738',
+                                '#8B628A',
+                                '#8FBE00',
+                                '#000000',
+                                '#000000',
+                                '#FF3784',
+                                '#36A2EB',
+                                '#4BC0C0',
+                                '#F77825',
+                                '#9966FF',
+                                '#00A8C6',
+                                '#379F7A',
+                                '#CC2738',
+                                '#8B628A',
+                                '#8FBE00',
+                                '#000000'
+                            ],
+                            data: [...c].slice(10)
+                        }]
+                    },
+                    options: {
+                        zoomOutPercentage: 35,
+                        layout: {
+                            padding: 100
+                        },
+                        plugins: {
+                            legend: false,
+                            outlabels: {
+                                text: '%l', /*%p*/
+                                color: 'black',
+                                stretch: 40,
+                                backgroundColor: 'white',
+                                font: {
+                                    resizable: true,
+                                    minSize: 12,
+                                    maxSize: 15
+                                }
+                            }
+                        }
+                    },
+                });
+
+            } catch (error) {
+                console.log('Error parsing JSON data', error)
+            }
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    });
+
+</script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
