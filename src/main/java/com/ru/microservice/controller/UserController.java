@@ -42,11 +42,11 @@ public class UserController {
         return restService.getSortedMessages();
     }
 
-    @GetMapping(value = "/messages", produces = MediaType.APPLICATION_JSON)
+    @GetMapping(value = "/table", produces = MediaType.APPLICATION_JSON)
     public ModelAndView testSortedTable() {
         ModelAndView modelAndView = new ModelAndView();
         log.info("Login to messages-table page");
-        modelAndView.setViewName("users/messages");
+        modelAndView.setViewName("users/table");
         return modelAndView;
     }
 
