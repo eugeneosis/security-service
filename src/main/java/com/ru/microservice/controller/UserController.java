@@ -38,14 +38,14 @@ public class UserController {
 
     @GetMapping(value = "/rest/messages", produces = MediaType.APPLICATION_JSON)
     public String messagesTestJsonWithoutUserData() {
-        log.info("Fetching messages data from UI-REST-SERVICE through Rest Service");
+        log.info("Fetching filtered messages data from UI-REST-SERVICE through Rest Service");
         return restService.getSortedMessages();
     }
 
     @GetMapping(value = "/messages", produces = MediaType.APPLICATION_JSON)
     public ModelAndView testSortedTable() {
         ModelAndView modelAndView = new ModelAndView();
-        log.info("Login to messages page");
+        log.info("Login to messages-table page");
         modelAndView.setViewName("users/messages");
         return modelAndView;
     }
@@ -56,19 +56,5 @@ public class UserController {
         log.info("Login to chart page");
         modelAndView.setViewName("users/charts");
         return modelAndView;
-    }
-
-    @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView messagesTable() {
-        ModelAndView modelAndView = new ModelAndView();
-        log.info("Login to test messages-table page");
-        modelAndView.setViewName("users/messages-table");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/rest/allmessages", produces = MediaType.APPLICATION_JSON)
-    public String messagesRest() {
-        log.info("Fetching raw messages data from UI-REST-SERVICE through Rest Service");
-        return restService.getAllMessages();
     }
 }
