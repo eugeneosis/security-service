@@ -6,7 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <div th:replace="imports"></div>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <title>График</title>
 </head>
 <body>
@@ -26,7 +30,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" th:href="@{/users/main}">Личный кабинет</a></li>
-                <li><a href="#" th:href="@{/users/messages}">Таблица статистики</a></li>
+                <li><a href="#" th:href="@{/users/table}">Таблица статистики</a></li>
                 <li><a href="/logout">Выйти</a>
                     <form style="visibility: hidden" method="get" action="#" th:action="@{/logout}"></form>
                 </li>
@@ -39,15 +43,18 @@
 <br>
 <br>
 <br>
-<br>
-<br>
 
-<div class="chart-container">
-    <canvas id="myChart" aria-label="aria" role="img"></canvas>
+<div class="wrapper">
+    <div class="container">
+        <div class="row box2">
+            <div class="col-xl-9 pie" width="510" height="410">
+                <canvas class="canvaspie" id="piechart" width="1200" height="550"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-
     function grabData() {
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -71,9 +78,6 @@
 
             try {
                 data.forEach((item) => {
-                    if (item.text === '/start') {
-                        console.log(item.text);
-                    }
                     text.push(item.text);
                 });
 
@@ -87,76 +91,126 @@
                     }
                 });
 
-                let b = [];
-                let c = [];
+                let dataOfCities = [];
+                let valuesOfLabels = [];
                 for (let key in a) {
-                    b.push(key);
-                    c.push(a[key]);
+                    dataOfCities.push(key);
+                    valuesOfLabels.push(a[key]);
                 }
-
                 console.log('Messages: ', text);
 
-                let chartdata = {
-                    labels: [...b],
-                    datasets: [{
-                        label: 'Сообщения',
-                        data: [...c],
-                        backgroundColor: [
-                            'rgb(136,136,246)',
-                            'rgb(89,245,231)',
-                            'rgb(255,8,46)',
-                            'rgb(0,151,148)',
-                            'rgb(205,254,0)',
-                            'rgb(255,0,109)',
-                            'rgb(168,0,239)',
-                            'rgb(255,179,30)',
-                            'rgb(0,249,111)',
-                            'rgb(71,66,74)'
-                        ],
-                        borderColor: [
-                            'rgb(136,136,246)',
-                            'rgb(89,245,231)',
-                            'rgb(255,8,46)',
-                            'rgb(0,151,148)',
-                            'rgb(205,254,0)',
-                            'rgb(255,0,109)',
-                            'rgb(168,0,239)',
-                            'rgb(255,179,30)',
-                            'rgb(0,249,111)',
-                            'rgb(71,66,74)',
-                            'rgb(0,0,0)'
-                        ],
-                        /*borderColor: 'white',*/
-                        borderWidth: 0.5,
-                    }]
-                };
+                $(function () {
+                    const background_color = [
+                        '#FF3784',
+                        '#36A2EB',
+                        '#4BC0C0',
+                        '#F77825',
+                        '#9966FF',
+                        '#00A8C6',
+                        '#379F7A',
+                        '#CC2738',
+                        '#8B628A',
+                        '#8FBE00',
+                        '#000000',
+                        '#FF3784',
+                        '#36A2EB',
+                        '#4BC0C0',
+                        '#F77825',
+                        '#9966FF',
+                        '#00A8C6',
+                        '#379F7A',
+                        '#CC2738',
+                        '#8B628A',
+                        '#8FBE00',
+                        '#000000',
+                        '#FF3784',
+                        '#36A2EB',
+                        '#4BC0C0',
+                        '#F77825',
+                        '#9966FF',
+                        '#00A8C6',
+                        '#379F7A',
+                        '#CC2738',
+                        '#8B628A',
+                        '#8FBE00',
+                        '#000000',
+                        '#000000',
+                        '#FF3784',
+                        '#36A2EB',
+                        '#4BC0C0',
+                        '#F77825',
+                        '#9966FF',
+                        '#00A8C6',
+                        '#379F7A',
+                        '#CC2738',
+                        '#8B628A',
+                        '#8FBE00',
+                        '#000000',
+                        '#379F7A',
+                        '#CC2738',
+                        '#8B628A',
+                        '#8FBE00'
+                    ];
 
-                /*admin_admin*/
-                let ctx = $("#myChart");
+                    let ctx = document.getElementById("piechart");
 
-                const chart = new Chart(ctx, {
-                    type: 'pie',
-                    data: chartdata,
-                    options: {
-                        responsive: true,
-                        aspectRatio: 1.9,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                                /*display: false*/
+                    let data = {
+                        width: 100,
+                        height: 100,
+                        labels: [...dataOfCities].slice(1),
+                        datasets: [{
+                            label: "pie chart",
+                            backgroundColor: background_color,
+                            borderWidth: 1.5,
+                            data: [...valuesOfLabels].slice(1)
+                        }]
+                    };
+
+                    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+                    let percent = [...valuesOfLabels].slice(1).reduce(reducer);
+
+                    let options = {
+                        responsive: false,
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: true,
+                            position: 'right',
+                            labels: {
+                                padding: 15,
+                                usePointStyle: true,
+
+                                generateLabels(chart) {
+                                    const data = chart.data;
+                                    if (data.labels.length && data.datasets.length) {
+                                        return data.labels.map((label, i) => {
+                                            let backgroundColor = data.datasets[0].backgroundColor[i];
+                                            let current = data.datasets[0].data[i];
+                                            let percentage = ((current * 100) / percent).toFixed(2) + '%';
+                                            return {
+                                                text: label + " : " + percentage,
+                                                fillStyle: backgroundColor,
+                                                index: i
+                                            };
+                                        });
+                                    }
+                                    return [];
+                                }
                             },
-                            title: {
-                                display: true
-                                /*text: 'Количество сообщений: '*/
-                            },
-                            animation: {
-                                animateScale: true,
-                                animateRotate: true
-                            }
-                        }
-                    },
-                });
+                        },
+                        layout: {
+                            padding: 50
 
+                        },
+                        zoomOutPercentage: 55,
+                        plugins: {}
+                    };
+
+                    let myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: data,
+                        options: options
+                    });
+                })
             } catch (error) {
                 console.log('Error parsing JSON data', error)
             }
@@ -165,7 +219,6 @@
             console.log(error);
         })
     });
-
 </script>
 <br>
 <br>
