@@ -45,7 +45,7 @@ public class ProcessingController {
         if (!bindingResult.hasErrors()) {
             userService.createUser(user);
             userService.setRole(user);
-            log.info("Create new user: {}", user);
+            log.info("Created new user: {}", user);
             modelAndView.addObject("successMessage", "Вы успешно зарегистрированы! \n\n Перейдите на страницу \n\nавторизации");
             emailSenderService.sendEmail(user.getEmail(), "allWeatherRussiaBot", user.getName() + ", спасибо за Ваш интерес к сервису. \n\nВы успешно зарегистрированы!");
             log.info("Sent email to {}", user.getEmail());

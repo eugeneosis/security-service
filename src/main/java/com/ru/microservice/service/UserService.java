@@ -5,6 +5,9 @@ import com.ru.microservice.model.User;
 import com.ru.microservice.repository.RoleRepository;
 import com.ru.microservice.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -27,15 +31,21 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<User> getAll() { return userRepository.findAll(); }
+    @Cacheable(value = "user")
+    public List<User> getAll() {
+        log.info("Getting all users from cache");
+        return userRepository.findAll();
+    }
 
     @Transactional
+    @CachePut(value = "user", key = "#user.id")
     public User createUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         user.setRegistered(new Date());
         Role userRole = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
+        log.info("Saved new user to cache {}", user);
         return userRepository.save(user);
     }
 

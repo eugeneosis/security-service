@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping(value = "/table", produces = MediaType.APPLICATION_JSON)
     public ModelAndView testSortedTable() {
         ModelAndView modelAndView = new ModelAndView();
-        log.info("Login to messages-table page");
+        log.info("Login to table page");
         modelAndView.setViewName("users/table");
         return modelAndView;
     }
