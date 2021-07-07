@@ -6,7 +6,7 @@ import com.ru.microservice.repository.RoleRepository;
 import com.ru.microservice.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class UserService {
     }
 
     @Transactional
-    @CachePut(value = "user", key = "#user.id")
+    @CacheEvict(value = "user", allEntries = true)
     public User createUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
@@ -59,5 +59,9 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteById(Long id) { userRepository.deleteById(id); }
+    @CacheEvict(value = "user", allEntries = true)
+    public void deleteById(Long id) {
+        log.info("Deleted from cache user with id: {}", id);
+        userRepository.deleteById(id);
+    }
 }
