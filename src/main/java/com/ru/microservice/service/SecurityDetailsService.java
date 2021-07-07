@@ -4,10 +4,12 @@ import com.ru.microservice.model.Role;
 import com.ru.microservice.model.User;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ import java.util.Set;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class SecurityDetailsService implements UserDetailsService {
 
     private final UserService userService;
@@ -27,6 +30,10 @@ public class SecurityDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String userName) {
         User user = userService.findUserByEmail(userName);
+        if (user == null) {
+            log.error("User not found");
+            throw new UsernameNotFoundException("Bad credentials");
+        }
         List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
     }
