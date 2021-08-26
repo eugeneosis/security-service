@@ -26,7 +26,7 @@ class ProcessingControllerUnitTest extends AbstractController {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    public static final String TEST_REGISTRATION_URL = "/registration/";
+    public static final String TEST_REGISTRATION_URL = "/registration";
 
     @BeforeEach
     public void setup() {

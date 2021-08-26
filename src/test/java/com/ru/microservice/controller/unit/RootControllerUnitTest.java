@@ -27,7 +27,7 @@ class RootControllerUnitTest extends AbstractController {
     private WebApplicationContext webApplicationContext;
 
     public static final String TEST_INDEX_PAGE_URL = "/";
-    public static final String TEST_LOGIN_PAGE_URL = "/login/";
+    public static final String TEST_LOGIN_PAGE_URL = "/login";
 
     @BeforeEach
     public void setup() {
