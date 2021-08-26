@@ -32,7 +32,7 @@ public class SecurityDetailsService implements UserDetailsService {
         User user = userService.findUserByEmail(userName);
         if (user == null) {
             log.error("User not found");
-            throw new UsernameNotFoundException("Bad credentials");
+            throw new UsernameNotFoundException(String.format("Bad credentials \"%s\"", userName));
         }
         List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
         return buildUserForAuthentication(user, authorities);
