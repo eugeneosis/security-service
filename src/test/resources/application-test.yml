@@ -16,3 +16,6 @@ spring:
     show-sql: true
   thymeleaf:
     enabled: false
+  cloud:
+    discovery:
+      enabled: false
