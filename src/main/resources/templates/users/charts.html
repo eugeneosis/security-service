@@ -66,6 +66,8 @@
                 },
                 error: function (error) {
                     reject(error);
+                    console.log("Data load error");
+                    location.replace("http://localhost:8084/users/rest/messages");
                 }
             })
         })
