@@ -29,7 +29,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Добро пожаловать " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+        modelAndView.addObject("userName", "Добро пожаловать " + auth.getName()/* + " " + user.getLastName() + " (" + user.getEmail() + ")"*/);
         modelAndView.addObject("userMessage", "Контент доступен только для пользователей");
         modelAndView.setViewName("users/main");
         log.info("Login to user profile {}", user);
@@ -37,13 +37,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/rest/messages", produces = MediaType.APPLICATION_JSON)
-    public String messagesTestJsonWithoutUserData() {
-        log.info("Fetching filtered messages data from UI-REST-SERVICE through Rest Service");
+    public String messagesData() {
+        log.info("Fetching data from UI-REST-SERVICE through Rest Service");
         return restService.getSortedMessages();
     }
 
     @GetMapping(value = "/table", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView testSortedTable() {
+    public ModelAndView tablePage() {
         ModelAndView modelAndView = new ModelAndView();
         log.info("Login to table page");
         modelAndView.setViewName("users/table");
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/charts", produces = MediaType.APPLICATION_JSON)
-    public ModelAndView messagesCharts() {
+    public ModelAndView chartPage() {
         ModelAndView modelAndView = new ModelAndView();
         log.info("Login to chart page");
         modelAndView.setViewName("users/charts");
